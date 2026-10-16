@@ -38,6 +38,73 @@
                      padding: 13px
     18px;
                      font-size: 16px;
-                     cursor: pointer
+                     cursor: pointer;
+                     margin-top: 12px;}
+    input[type="file"]textarea { widith: 100%;
+                                margin-top: 12px; }
+    textera {
+      padding: 12px;
+      min-height:130px;
+      border: 1px solid#ccd0e5;
+      border-radius:10px;
+      font: inherit;}
+    #resultat
+    { white-space:pre-wrap; line-height:1.6; }
+    .petit { color:#626985; font-size:14px; }
+    </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1> RéviseAI</h1>
+      <p></p></header><section
+                        class="carte">
+        <h2></h2><p
+                   class="petit"></p><input type="file"id="photo"accept="image/*">
+        <texterea
+          id="cours"placeholder="   "></texterea><button
+                                                   onclick="creerRevision()">Créer mes révisions</button></section>
+    <section
+      class="carte">
+      <h2></h2>
+      <div
+        id="resume"></div></section>
+    <section
+      class="carte"><h2></h2><div
+                               id="flashcards"></div></section>
+    <section
+      class="carte">
+      <h2></h2><div id="quiz"></div>
+    </section>
+    <section
+      class="carte"><h2></h2><p></p></section></main>
+  <script>
+    function
+      creerRevision() {
+        const cours =
+          document.getElementById
+        ("cours").value.trim();
+        const photo =
+          document.getElementById
+        ("photo").files[0];
+        if (!cours && !photo)
+        {
+          alert("Ajoute une photo ou écris ton cours !");
+          return;
+        }
+        if (!cours && photo)
+        {
+          alert("La lecture automatique des photos sera ajoutée dans une prochaine étape. Pour l'instant, colle le texte de ton cours dans la zone prévue.");
+          return;
+        }
+        const phrases =cours.split(/[.!?]+/).map(p =>p.trim()).filter(Boolean);
+        document.getElementById("resume").textContent=
+          phrase.slice(03).join(". ") +
+          (phrases.length ? "." :
+           "");
+        document.get
+          
+              
+          
                      
                      
