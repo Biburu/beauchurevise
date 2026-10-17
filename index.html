@@ -104,7 +104,8 @@
            "");
         document.getElementById("flashcards").innerHTML = "";
         phrases.slice(05).forEach((phrase, i)=> {
-          const carte =document.createElement("div");
+         const carte=documentcreateElement("summary");
+           const carte =document.createElement("div");
           const question =document.createElement("h3");
           question.textContent =
             "Flashcard " + (i + 1)+" - affficher la réponse";
