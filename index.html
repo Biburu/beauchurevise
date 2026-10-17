@@ -99,12 +99,13 @@
         }
         const phrases =cours.split(/[.!?]+/).map(p =>p.trim()).filter(Boolean);
         document.getElementById("resume").textContent=
-          phrase.slice(03).join(". ") +
+          phrases.slice(0,3).join(". ") +
           (phrases.length ? "." :
            "");
         document.getElementById("flashcards").innerHTML = "";
         phrases.slice(05).forEach((phrase, i)=> {
-          const carte =document.createElement("summary");
+          const carte =document.createElement("div");
+          const question =document.createElement("h3");
           question.textContent =
             "Flashcard " + (i + 1)+" - affficher la réponse";
           const reponse =document.createElement("p");
