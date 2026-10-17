@@ -102,7 +102,21 @@
           phrase.slice(03).join(". ") +
           (phrases.length ? "." :
            "");
-        document.get
+        document.getElementById("flashcards").inneerHTML = "";
+        phrases.slice(05).forEach((phrase, i)=> {
+          const carte =document.createElement("summary");
+          question.textContent =
+            "Flashcard " + (i + 1)+" - affficher la réponse";
+          const reponse =document.createElement("p");
+          reponse.textContent= phrase;
+          carte.append(question,reponse);
+          document.getElementById(flashcards").appendChild(carte);
+        });
+        document.getElementById("resume").scrollIntoView({ behavior:"smooth" });
+      }
+    <script>
+      </body>
+      </html>
           
               
           
