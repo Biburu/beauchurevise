@@ -1,2 +1,121 @@
-# beauchurevise
-application de révision avec ai 
+<!DOCTYPE html>
+<htlm lang="fr">
+<head>
+<meta 
+  charset="UTF-8">
+  <meta name="viewport"content="width=device-width,initial-scale=1.0">
+  <title>RéviseAI</title><style>*{ box-sizing:border-box; }
+  body { 
+    margin: o;
+    padding: 25px
+    16px;
+    font-family: 
+    Arial, sans-serif;
+     background:
+    #f1f4ff;
+     color: #2026a; }
+    main {
+     max-width: 650px;
+     margin: auto;}
+    header {
+      text-align:center;
+      padding: 25px10px;
+    }
+    h1 { font-size:38px; margin-bottom:8px; }
+    .carte {background:white;
+            padding: 22px;
+            margin: 16px 0;
+            border-radius:18px;
+            box-shadow: 0 4px 15px #2026a12;
+           }
+    button, .bouton {display:
+      inline-block;
+                     background:
+     5148d8;
+                     color: white;
+                     border: o;
+                     border-radius:10px; 
+                     padding: 13px
+    18px;
+                     font-size: 16px;
+                     cursor: pointer;
+                     margin-top: 12px;}
+    input[type="file"]textarea { widith: 100%;
+                                margin-top: 12px; }
+    textera {
+      padding: 12px;
+      min-height:130px;
+      border: 1px solid#ccd0e5;
+      border-radius:10px;
+      font: inherit;}
+    #resultat
+    { white-space:pre-wrap; line-height:1.6; }
+    .petit { color:#626985; font-size:14px; }
+    </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1> RéviseAI</h1>
+      <p></p></header><section
+                        class="carte">
+        <h2></h2><p
+                   class="petit"></p><input type="file"id="photo"accept="image/*">
+        <texterea
+          id="cours"placeholder="   "></texterea><button
+                                                   onclick="creerRevision()">Créer mes révisions</button></section>
+    <section
+      class="carte">
+      <h2></h2>
+      <div
+        id="resume"></div></section>
+    <section
+      class="carte"><h2></h2><div
+                               id="flashcards"></div></section>
+    <section
+      class="carte">
+      <h2></h2><div id="quiz"></div>
+    </section>
+    <section
+      class="carte"><h2></h2><p></p></section></main>
+  <script>
+    function
+      creerRevision() {
+        const cours =
+          document.getElementById
+        ("cours").value.trim();
+        const photo =
+          document.getElementById
+        ("photo").files[0];
+        if (!cours && !photo)
+        {
+          alert("Ajoute une photo ou écris ton cours !");
+          return;
+        }
+        if (!cours && photo)
+        {
+          alert("La lecture automatique des photos sera ajoutée dans une prochaine étape. Pour l'instant, colle le texte de ton cours dans la zone prévue.");
+          return;
+        }
+        const phrases =cours.split(/[.!?]+/).map(p =>p.trim()).filter(Boolean);
+        document.getElementById("resume").textContent=
+          phrase.slice(03).join(". ") +
+          (phrases.length ? "." :
+           "");
+        document.getElementById("flashcards").innerHTML = "";
+        phrases.slice(05).forEach((phrase, i)=> {
+          const carte =document.createElement("summary");
+          question.textContent =
+            "Flashcard " + (i + 1)+" - affficher la réponse";
+          const reponse =document.createElement("p");
+          reponse.textContent= phrase;
+          carte.append(question,reponse);
+          document.getElementById(flashcards").appendChild(carte);
+        });
+        document.getElementById("resume").scrollIntoView({ behavior:"smooth" });
+      }
+    <script>
+      </body>
+      </html>
+          
+              
