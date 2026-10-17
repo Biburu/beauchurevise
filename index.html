@@ -102,7 +102,7 @@
           phrase.slice(03).join(". ") +
           (phrases.length ? "." :
            "");
-        document.getElementById("flashcards").inneerHTML = "";
+        document.getElementById("flashcards").innerHTML = "";
         phrases.slice(05).forEach((phrase, i)=> {
           const carte =document.createElement("summary");
           question.textContent =
