@@ -8,13 +8,12 @@
   <style>*{ box-sizing:border-box; }
   body { 
     margin: o;
-    padding: 25px
-    16px;
+    padding: 25px 16px;
     font-family: 
     Arial, sans-serif;
      background:
     #f1f4ff;
-     color: #2026a; }
+     color: #20264a; }
     main {
      max-width: 650px;
      margin: auto;}
@@ -41,9 +40,10 @@
                      font-size: 16px;
                      cursor: pointer;
                      margin-top: 12px;}
-    input[type="file"]textarea { widith: 100%;
+    input[type="file"],
+    textarea { width: 100%;
                                 margin-top: 12px; }
-    textera {
+    textarea {
       padding: 12px;
       min-height:130px;
       border: 1px solid#ccd0e5;
@@ -104,16 +104,15 @@
           (phrases.length ? "." :
            "");
         document.getElementById("flashcards").innerHTML = "";
-        phrases.slice(05).forEach((phrase, i)=> {
-         const carte=documentcreateElement("summary");
-           const carte =document.createElement("div");
+        phrases.slice(0,5).forEach((phrase, i)=> {
+           const carte = document.createElement("div");
           const question =document.createElement("h3");
           question.textContent =
             "Flashcard " + (i + 1)+" - affficher la réponse";
           const reponse =document.createElement("p");
           reponse.textContent= phrase;
           carte.append(question,reponse);
-          document.getElementById(flashcards").appendChild(carte);
+          document.getElementById("flashcards").appendChild(carte);
         });
         document.getElementById("resume").scrollIntoView({ behavior:"smooth" });
       }
