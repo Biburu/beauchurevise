@@ -94,7 +94,7 @@ label { display: block; margin: 12px 0; }
 </section>
 
 <section id="activity" class="card hidden">
-  <a class="btn secondary" href="./">← Retour à l'accueil</a>
+  <a class="btn secondary" href="?">← Retour à l'accueil</a>
   <h2 id="activityTitle"></h2>
   <div id="activityContent"></div>
 </section>
@@ -273,7 +273,7 @@ function showQuiz(sentences) {
     const options = [correct];
 
     sentences.forEach(sentence => {
-      if (sentence !== correct && options.length < 3) options.push(sentence);
+      if (sentence !== correct &&& options.length < 3) options.push(sentence);
     });
 
     options.sort(() => Math.random() - 0.5);
