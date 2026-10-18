@@ -273,7 +273,7 @@ function showQuiz(sentences) {
     const options = [correct];
 
     sentences.forEach(sentence => {
-      if (sentence !== correct &&& options.length < 3) options.push(sentence);
+      if (sentence !== correct && options.length < 4) options.push(sentence);
     });
 
     options.sort(() => Math.random() - 0.5);
