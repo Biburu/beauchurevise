@@ -1,54 +1,55 @@
 <!DOCTYPE html>
-<htlm lang="fr">
+<html lang="fr">
 <head>
-<meta 
-  charset="UTF-8">
-  <meta name="viewport"content="width=device-width,initial-scale=1.0">
-  <title>RéviseAI</title><style>*{ box-sizing:border-box; }
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>RéviseAI</title>
+  <style>*{ box-sizing:border-box; }
   body { 
-    margin: o;
-    padding: 25px
-    16px;
+    margin: 0;
+    padding: 25px 16px;
     font-family: 
     Arial, sans-serif;
      background:
     #f1f4ff;
-     color: #2026a; }
+     color: #20264a; }
     main {
      max-width: 650px;
      margin: auto;}
     header {
       text-align:center;
-      padding: 25px10px;
+      padding: 25px 10px;
     }
     h1 { font-size:38px; margin-bottom:8px; }
     .carte {background:white;
             padding: 22px;
             margin: 16px 0;
             border-radius:18px;
-            box-shadow: 0 4px 15px #2026a12;
+            box-shadow: 0 4px 15px rgba(32,38,74,0.12);
            }
     button, .bouton {display:
       inline-block;
                      background:
-     5148d8;
+     #5148d8;
                      color: white;
-                     border: o;
+                     border: 0;
                      border-radius:10px; 
                      padding: 13px
     18px;
                      font-size: 16px;
                      cursor: pointer;
                      margin-top: 12px;}
-    input[type="file"]textarea { widith: 100%;
+    input[type="file"],
+    textarea { width: 100%;
                                 margin-top: 12px; }
-    textera {
+    textarea {
       padding: 12px;
       min-height:130px;
-      border: 1px solid#ccd0e5;
+      border: 1px solid #ccd0e5;
       border-radius:10px;
       font: inherit;}
     #resultat
+    <div id="resultat"></div>
     { white-space:pre-wrap; line-height:1.6; }
     .petit { color:#626985; font-size:14px; }
     </style>
@@ -60,24 +61,23 @@
       <p></p></header><section
                         class="carte">
         <h2></h2><p
-                   class="petit"></p><input type="file"id="photo"accept="image/*">
-        <texterea
-          id="cours"placeholder="   "></texterea><button
+                   class="petit"></p><input type="file" id="photo" accept="image/*">
+        <textarea id="cours"placeholder="Coller ton cours ici"></textarea><button
                                                    onclick="creerRevision()">Créer mes révisions</button></section>
     <section
       class="carte">
-      <h2></h2>
+      <h2>Résumé</h2>
       <div
         id="resume"></div></section>
     <section
-      class="carte"><h2></h2><div
+      class="carte"><h2>Flashcards</h2><div
                                id="flashcards"></div></section>
     <section
       class="carte">
-      <h2></h2><div id="quiz"></div>
+      <h2>Quiz</h2><div id="quiz"></div>
     </section>
     <section
-      class="carte"><h2></h2><p></p></section></main>
+      class="carte"><h2>Résumé</h2><p></p></section></main>
   <script>
     function
       creerRevision() {
@@ -99,23 +99,30 @@
         }
         const phrases =cours.split(/[.!?]+/).map(p =>p.trim()).filter(Boolean);
         document.getElementById("resume").textContent=
-          phrase.slice(03).join(". ") +
+          phrases.slice(0,3).join(". ") +
           (phrases.length ? "." :
            "");
         document.getElementById("flashcards").innerHTML = "";
-        phrases.slice(05).forEach((phrase, i)=> {
-          const carte =document.createElement("summary");
+        phrases.slice(0,5).forEach((phrase, i)=> {
+           const carte = document.createElement("div");
+          carte.className = "carte";
+          const question =document.createElement("h3");
           question.textContent =
-            "Flashcard " + (i + 1)+" - affficher la réponse";
+            "Flashcard " + (i + 1)+ " - afficher la réponse";
           const reponse =document.createElement("p");
           reponse.textContent= phrase;
           carte.append(question,reponse);
-          document.getElementById(flashcards").appendChild(carte);
+          document.getElementById("flashcards").appendChild(carte);
         });
-        document.getElementById("resume").scrollIntoView({ behavior:"smooth" });
+        document.getElementById("resume")
+          .scrollIntoView({ behavior:"smooth" });
       }
-    <script>
+  </script>
       </body>
       </html>
           
+              
+          
+                     
+                     
               
