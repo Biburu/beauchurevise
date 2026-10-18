@@ -1,127 +1,342 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>RéviseAI</title>
-  <style>*{ box-sizing:border-box; }
-  body { 
-    margin: 0;
-    padding: 25px 16px;
-    font-family: 
-    Arial, sans-serif;
-     background:
-    #f1f4ff;
-     color: #20264a; }
-    main {
-     max-width: 650px;
-     margin: auto;}
-    header {
-      text-align:center;
-      padding: 25px 10px;
-    }
-    h1 { font-size:38px; margin-bottom:8px; }
-    .carte {background:white;
-            padding: 22px;
-            margin: 16px 0;
-            border-radius:18px;
-            box-shadow: 0 4px 15px rgba(32,38,74,0.12);
-           }
-    button, .bouton {display:
-      inline-block;
-                     background:
-     #5148d8;
-                     color: white;
-                     border: 0;
-                     border-radius:10px; 
-                     padding: 13px
-    18px;
-                     font-size: 16px;
-                     cursor: pointer;
-                     margin-top: 12px;}
-    input[type="file"],
-    textarea { width: 100%;
-                                margin-top: 12px; }
-    textarea {
-      padding: 12px;
-      min-height:130px;
-      border: 1px solid #ccd0e5;
-      border-radius:10px;
-      font: inherit;}
-    #resultat
-    <div id="resultat"></div>
-    { white-space:pre-wrap; line-height:1.6; }
-    .petit { color:#626985; font-size:14px; }
-    </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RéviseAI</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  background: #f1f4ff;
+  color: #20263a;
+}
+main { max-width: 760px; margin: auto; }
+header { text-align: center; padding: 15px; }
+h1 { color: #244ac4; font-size: 38px; }
+.card {
+  background: white;
+  padding: 22px;
+  margin: 18px 0;
+  border-radius: 18px;
+  box-shadow: 0 3px 12px #17255412;
+}
+textarea {
+  width: 100%;
+  min-height: 190px;
+  padding: 14px;
+  font: inherit;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  resize: vertical;
+}
+button, .btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  background: #244ac4;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin: 5px 3px 5px 0;
+}
+button:hover, .btn:hover { background: #193795; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.secondary { background: #64748b; }
+.answer {
+  background: #edf3ff;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+}
+.hidden { display: none; }
+.small { color: #596579; font-size: 14px; }
+label { display: block; margin: 12px 0; }
+.choice {
+  display: block;
+  padding: 12px;
+  margin: 8px 0;
+  background: #f1f4ff;
+  border-radius: 9px;
+  cursor: pointer;
+}
+#status { font-weight: bold; }
+</style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1> RéviseAI</h1>
-      <p></p></header><section
-                        class="carte">
-        <h2></h2><p
-                   class="petit"></p><input type="file" id="photo" accept="image/*">
-        <textarea id="cours"placeholder="Coller ton cours ici"></textarea><button
-                                                   onclick="creerRevision()">Créer mes révisions</button></section>
-    <section
-      class="carte">
-      <h2>Résumé</h2>
-      <div
-        id="resume"></div></section>
-    <section
-      class="carte"><h2>Flashcards</h2><div
-                               id="flashcards"></div></section>
-    <section
-      class="carte">
-      <h2>Quiz</h2><div id="quiz"></div>
-    </section>
-    <section
-      class="carte"><h2>Résumé</h2><p></p></section></main>
-  <script>
-    function
-      creerRevision() {
-        const cours =
-          document.getElementById
-        ("cours").value.trim();
-        const photo =
-          document.getElementById
-        ("photo").files[0];
-        if (!cours && !photo)
-        {
-          alert("Ajoute une photo ou écris ton cours !");
-          return;
+<main>
+<header>
+  <h1>RéviseAI</h1>
+  <p>Ton espace personnel de révision 📚</p>
+</header>
+
+<section id="home" class="card hidden">
+  <h2>Prépare tes révisions</h2>
+  <p>Colle le texte de ton cours ci-dessous.</p>
+  <textarea id="course" placeholder="Colle ton cours ici..."></textarea>
+  <label for="file">Ou importe un fichier texte (.txt ou .md) :</label>
+  <input id="file" type="file" accept=".txt,.md,text/plain">
+  <p class="small">Cette version lit les fichiers texte, mais pas encore le texte contenu dans les photos.</p>
+  <p id="status" role="status"></p>
+  <button id="prepare">Préparer mes révisions</button>
+
+  <div id="tools" class="hidden">
+    <h3>Choisis ton activité</h3>
+    <button data-view="summary">Ouvrir le résumé</button>
+    <button data-view="cards">Ouvrir les flashcards</button>
+    <button data-view="quiz">Ouvrir le quiz</button>
+  </div>
+</section>
+
+<section id="activity" class="card hidden">
+  <a class="btn secondary" href="./">← Retour à l'accueil</a>
+  <h2 id="activityTitle"></h2>
+  <div id="activityContent"></div>
+</section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const view = params.get("view");
+
+function splitSentences(text) {
+  return text.split(/[.!?]+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+}
+
+function getCourse() {
+  return localStorage.getItem("reviseai-course") || "";
+}
+
+function prepare() {
+  const text = $("course").value.trim();
+  if (!text) {
+    $("status").textContent = "Écris ou importe d'abord ton cours.";
+    return;
+  }
+
+  const sentences = splitSentences(text);
+  if (!sentences.length) {
+    $("status").textContent = "Je n'ai pas trouvé de phrases dans ce cours.";
+    return;
+  }
+
+  localStorage.setItem("reviseai-course", text);
+  $("status").textContent = "Cours enregistré ! Tu peux choisir une activité.";
+  $("tools").classList.remove("hidden");
+}
+
+$("file").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    $("course").value = await file.text();
+    $("status").textContent = "Fichier texte importé. Clique sur Préparer mes révisions.";
+  } catch {
+    $("status").textContent = "Impossible de lire ce fichier. Essaie un fichier .txt.";
+  }
+});
+
+$("prepare").addEventListener("click", prepare);
+
+document.querySelectorAll("[data-view]").forEach(button => {
+  button.addEventListener("click", () => {
+    if (!getCourse()) {
+      $("status").textContent = "Prépare d'abord ton cours.";
+      return;
+    }
+    const url = new URL(location.href);
+    url.search = "?view=" + button.dataset.view;
+    window.open(url.href, "_blank");
+  });
+});
+
+function showSummary(sentences) {
+  $("activityTitle").textContent = "Résumé du cours";
+  const intro = document.createElement("p");
+  intro.textContent = "Voici les idées principales de ton texte :";
+  $("activityContent").appendChild(intro);
+
+  const list = document.createElement("ul");
+  sentences.slice(0, 8).forEach(sentence => {
+    const item = document.createElement("li");
+    item.textContent = sentence + ".";
+    list.appendChild(item);
+  });
+  $("activityContent").appendChild(list);
+
+  if (sentences.length > 8) {
+    const note = document.createElement("p");
+    note.className = "small";
+    note.textContent = "Le résumé affiche les 8 premières phrases.";
+    $("activityContent").appendChild(note);
+  }
+}
+
+function showCards(sentences) {
+  $("activityTitle").textContent = "Flashcards";
+  let index = 0;
+  const area = $("activityContent");
+
+  const counter = document.createElement("p");
+  const question = document.createElement("h3");
+  const answer = document.createElement("div");
+  answer.className = "answer hidden";
+
+  const reveal = document.createElement("button");
+  reveal.textContent = "Voir la réponse";
+
+  const next = document.createElement("button");
+  next.textContent = "Carte suivante";
+
+  function render() {
+    counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
+    question.textContent = "Que faut-il retenir ?";
+
+    answer.textContent = sentences[index] + ".";
+    answer.classList.add("hidden");
+    reveal.disabled = false;
+    next.disabled = sentences.length < 2;
+  }
+
+  reveal.addEventListener("click", () => {
+    answer.classList.remove("hidden");
+    reveal.disabled = true;
+  });
+
+  next.addEventListener("click", () => {
+    index = (index + 1) % sentences.length;
+    render();
+  });
+
+  area.append(counter, question, reveal, next, answer);
+  render();
+}
+
+function showQuiz(sentences) {
+  $("activityTitle").textContent = "Quiz du cours";
+  const area = $("activityContent");
+
+  if (sentences.length < 2) {
+    area.textContent = "Ajoute au moins deux phrases à ton cours pour créer un quiz.";
+    return;
+  }
+
+  const questions = sentences.slice(0, Math.min(5, sentences.length));
+  let index = 0;
+  let score = 0;
+
+  const progress = document.createElement("p");
+  const question = document.createElement("h3");
+  const choices = document.createElement("div");
+  const feedback = document.createElement("p");
+  const next = document.createElement("button");
+  next.textContent = "Question suivante";
+  next.disabled = true;
+
+  function render() {
+    if (index >= questions.length) {
+      area.replaceChildren();
+      const result = document.createElement("h3");
+      result.textContent = "Résultat : " + score + " / " + questions.length;
+      const detail = document.createElement("p");
+      detail.textContent = score === questions.length
+        ? "Bravo, sans faute !"
+        : "Bien joué ! Relis les réponses et réessaie.";
+      const restart = document.createElement("button");
+      restart.textContent = "Recommencer";
+      restart.addEventListener("click", () => {
+        index = 0;
+        score = 0;
+        area.replaceChildren(progress, question, choices, feedback, next);
+        render();
+      });
+      area.append(result, detail, restart);
+      return;
+    }
+
+    progress.textContent = "Question " + (index + 1) + " sur " + questions.length;
+    question.textContent = "Quelle phrase figure dans ton cours ?";
+    choices.replaceChildren();
+    feedback.textContent = "";
+    next.disabled = true;
+
+    const correct = questions[index];
+    const options = [correct];
+
+    sentences.forEach(sentence => {
+      if (sentence !== correct && options.length < 3) options.push(sentence);
+    });
+
+    options.sort(() => Math.random() - 0.5);
+
+    options.forEach(option => {
+      const label = document.createElement("label");
+      label.className = "choice";
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "answer";
+      radio.value = option;
+      label.append(radio, document.createTextNode(" " + option));
+      radio.addEventListener("change", () => {
+        choices.querySelectorAll("input").forEach(input => input.disabled = true);
+        if (option === correct) {
+          score++;
+          feedback.textContent = "Bonne réponse !";
+        } else {
+          feedback.textContent = "Pas tout à fait. La bonne réponse était : " + correct;
         }
-        if (!cours && photo)
-        {
-          alert("La lecture automatique des photos sera ajoutée dans une prochaine étape. Pour l'instant, colle le texte de ton cours dans la zone prévue.");
-          return;
-        }
-        const phrases =cours.split(/[.!?]+/).map(p =>p.trim()).filter(Boolean);
-        document.getElementById("resume").textContent=
-          phrases.slice(0,3).join(". ") +
-          (phrases.length ? "." :
-           "");
-        document.getElementById("flashcards").innerHTML = "";
-        phrases.slice(0,5).forEach((phrase, i)=> {
-           const carte = document.createElement("div");
-          carte.className = "carte";
-          const question =document.createElement("h3");
-          question.textContent =
-            "Flashcard " + (i + 1)+ " - afficher la réponse";
-          const reponse =document.createElement("p");
-          reponse.textContent= phrase;
-          carte.append(question,reponse);
-          document.getElementById("flashcards").appendChild(carte);
-        });
-        document.getElementById("resume")
-          .scrollIntoView({ behavior:"smooth" });
-      }
-  </script>
-      </body>
-      </html>
-          
-              
+        next.disabled = false;
+      });
+      choices.appendChild(label);
+    });
+  }
+
+  next.addEventListener("click", () => {
+    index++;
+    render();
+  });
+
+  area.append(progress, question, choices, feedback, next);
+  render();
+}
+
+if (view) {
+  $("activity").classList.remove("hidden");
+  const course = getCourse();
+  if (!course) {
+    $("activityTitle").textContent = "Aucun cours trouvé";
+    $("activityContent").textContent =
+      "Retourne à l'accueil, colle ton cours et clique sur Préparer mes révisions.";
+  } else {
+    const sentences = splitSentences(course);
+    if (view === "summary") showSummary(sentences);
+    else if (view === "cards") showCards(sentences);
+    else if (view === "quiz") showQuiz(sentences);
+    else {
+      $("activityTitle").textContent = "Page inconnue";
+      $("activityContent").textContent = "Retourne à l'accueil.";
+    }
+  }
+} else {
+  $("home").classList.remove("hidden");
+  $("course").value = getCourse();
+  if (getCourse()) {
+    $("status").textContent = "Ton dernier cours est restauré.";
+    $("tools").classList.remove("hidden");
+  }
+}
+</script>
+</body>
+</html>              
           
                      
                      
