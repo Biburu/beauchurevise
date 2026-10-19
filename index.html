@@ -210,6 +210,8 @@ function showCards(sentences) {
 
   reveal.addEventListener("click", () => {
     answer.classList.remove("hidden");
+    reveal.textContent=
+      "Réponse affichée";
     reveal.disabled = true;
   });
 
