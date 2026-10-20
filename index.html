@@ -95,7 +95,7 @@ label { display: block; margin: 12px 0; }
 </section>
 
 <section id="activity" class="card hidden">
-  <a class="btn secondary" href="?">← Retour à l'accueil</a>
+  <a class="btn secondary" href="./">← Retour à l'accueil</a>
   <h2 id="activityTitle"></h2>
   <div id="activityContent"></div>
 </section>
@@ -187,13 +187,12 @@ function
     const texte =
       phrase.trim().replace(/[.!?]+$/, "");
       {
-        if:(/tourne autour du Soleil/
+        if (/tourne autour du Soleil/
             i.test(texte)) {
          return "Autour de quel astre la planète tourne-t-elle ?"
       }
-      if: /^(.+?) est (.+)$/i.test(texte)) {
-  return
-        "Qu'est-ce qui est décrit dans cette phrase ?";
+      if: (/^(.+?) est (.+)$/i.test(texte)) {
+  return "Qu'est-ce qui est décrit dans cette phrase ?";
       }
         if (/se trouve/
             i.test(texte)) {
@@ -295,10 +294,12 @@ function showQuiz(sentences) {
     const correct = questions[index];
     const options = [correct];
 
-    sentences.forEach(sentence => {
-      if (sentence !== correct && options.length < 4) options.push(sentence);
-    });
+    const others = sentences.filter(s => s !== correct);
+others.sort(() => Math.random() - 0.5);
 
+while (options.length < 4 && others.length) {
+  options.push(others.pop());
+}
     options.sort(() => Math.random() - 0.5);
 
     options.forEach(option => {
