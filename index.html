@@ -191,6 +191,7 @@ function showSummary(sentences) {
 }
 function creerQuestion(phrase) {
   const texte = phrase.trim().replace(/[.!?]+$/, "");
+
   const regles = [
     {
       motif: /^(.+?)\s+est composé de\s+(.+)$/i,
@@ -218,20 +219,22 @@ function creerQuestion(phrase) {
     },
     {
       motif: /^(.+?)\s+provoque\s+(.+)$/i,
-      question: (m) => "Que provoque " + m[1] + " ?"
+      question: (m) => "Qu'est-ce qui provoque " + m[2] + " ?"
     },
     {
       motif: /^(.+?)\s+permet\s+(.+)$/i,
       question: (m) => "Que permet " + m[1] + " ?"
     }
   ];
+
   for (const regle of regles) {
     const resultat = texte.match(regle.motif);
     if (resultat) {
       return regle.question(resultat);
     }
   }
-  return "Explique avec tes propres mots : " + texte + " ?";
+
+  return "Que faut-il retenir à propos de : " + texte + " ?";
 }
   function showCards(sentences) {
   $("activityTitle").textContent = "Flashcards";
