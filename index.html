@@ -265,7 +265,11 @@ answer.textContent = carte.reponse + ".";
     render();
   });
 
-  area.append(counter, question, reveal, next, answer);
+  area.appendChild(counter);
+    area.appendChild(question);
+    area.appendChild(answer);
+    area.appendChild(reveal);
+    area.appendChild(next);
   render();
 }
 
