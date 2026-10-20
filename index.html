@@ -221,7 +221,7 @@ function creerQuestion(phrase) {
 
   function render() {
     counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
-    question.textContent = creerQuestion(sentences[index]);;
+    question.textContent = creerQuestion(sentences[index]);
 
     answer.textContent = sentences[index] + ".";
     answer.classList.add("hidden");
