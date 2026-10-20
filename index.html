@@ -181,6 +181,14 @@ function showSummary(sentences) {
     $("activityContent").appendChild(note);
   }
 }
+  function creerCarte(phrase) {
+  const texte = phrase.trim().replace(/[.!?]+$/, "");
+  const question = creerQuestion(texte);
+  return {
+    question: question,
+    reponse: texte
+  };
+}
 function creerQuestion(phrase) {
   const texte = phrase.trim().replace(/[.!?]+$/, "");
   const regles = [
@@ -243,9 +251,10 @@ function creerQuestion(phrase) {
 
   function render() {
     counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
-    question.textContent = creerQuestion(sentences[index]);
+const carte = creerCarte(sentences[index]);
+question.textContent = carte.question;
+answer.textContent = carte.reponse + ".";
 
-    answer.textContent = sentences[index] + ".";
     answer.classList.add("hidden");
     reveal.disabled = false;
     next.disabled = sentences.length < 2;
