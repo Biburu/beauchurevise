@@ -182,7 +182,29 @@ function showSummary(sentences) {
   }
 }
 
-function showCards(sentences) {
+function
+  creerQuestion(phrase) {
+    const texte =
+      phrase.trim().replace(/[.!?]+$/, "");
+    const regles = [
+      {
+        motif: /^(.+?)\s+tourn(?:e|ent)
+          \s+autour\s+du\s+Soleil$/i,
+        question:
+          "Autour de quel astre la planète tourne-t-elle ?"
+      }
+      {
+      motif: /^(.+?)\s+est\s+(.+)$/i,
+        question:
+      "Où se trouve l'élément décrit ?"
+    }
+    ];
+    for (const regle of regles) {
+      if
+        (regle.motif.test(texte)) {
+          return "Peux-tu expliquer cette phrase avec tes propres mots ?";
+        }
+  function showCards(sentences) {
   $("activityTitle").textContent = "Flashcards";
   let index = 0;
   const area = $("activityContent");
@@ -200,7 +222,7 @@ function showCards(sentences) {
 
   function render() {
     counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
-    question.textContent = "Que faut-il retenir ?";
+    question.textContent = creerQuestion(sentences[index]);;
 
     answer.textContent = sentences[index] + ".";
     answer.classList.add("hidden");
