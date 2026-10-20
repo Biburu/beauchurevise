@@ -185,23 +185,22 @@ function showSummary(sentences) {
 function
   creerQuestion (phrase) {
     const texte =
-      phrase.trim().replace(/[.!?]+$/, "");
-    const regles = [
+      phrase.trim().replace(/
+                            [.!?]+$/, "");
       {
-        motif: /^(.+?)\s+tourn(?:e|ent)
-          \s+autour\s+du\s+Soleil$/i,
-        question:
-          "Autour de quel astre la planète tourne-t-elle ?"
+        if:(/tourne autour du Soleil/
+            i.test(texte)) {
+         return "Autour de quel astre la planète tourne-t-elle ?"
       }
-      {
-      motif: /^(.+?)\s+est\s+(.+)$/i,
-        question:
-      "Où se trouve l'élément décrit ?"
-    }
-    ];
-    for (const regle of regles) {
-      if
-        (regle.motif.test(texte)) {
+      if: /^(.+?) est (.+)$/i.test(texte)) {
+  return
+        "Qu'est-ce qui est décrit dans cette phrase ?";
+      }
+        if (/se trouve/
+            i.test(texte)) {
+          return "Où se trouve l'élément décrit ?";
+        }
+  
           return "Peux-tu expliquer cette phrase avec tes propres mots ?";
         }
   function showCards(sentences) {
