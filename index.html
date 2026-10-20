@@ -269,60 +269,61 @@ function showSummary(sentences) {
     $("activityContent").appendChild(note);
   }
 }
-  function creerCarte(phrase) {
-  const texte = phrase.trim().replace(/[.!?]+$/, "");
-  const question = creerQuestion(texte);
-  return {
-    question: question,
+  function extraireMotsImportants(texte) {
+  return texte
+    .split(/\s+/)
+    .filter(mot => mot.length > 6)
+    .slice(0, 3);
+}
+ function creerCarte(phrase) {
+ const texte = phrase.trim().replace(/[.!?]+$/, "");
+return {
+    question: creerQuestion(texte),
     reponse: texte
   };
 }
 function creerQuestion(phrase) {
   const texte = phrase.trim().replace(/[.!?]+$/, "");
-
-  const regles = [
-    {
-      motif: /^(.+?)\s+est composé de\s+(.+)$/i,
-      question: (m) => "De quoi " + m[1] + " est-il composé ?"
-    },
-    {
-      motif: /^(.+?)\s+est composée de\s+(.+)$/i,
-      question: (m) => "De quoi " + m[1] + " est-elle composée ?"
-    },
-    {
-      motif: /^(.+?)\s+tourne autour du Soleil$/i,
-      question: (m) => "Autour de quel astre " + m[1] + " tourne-t-elle ?"
-    },
-    {
-      motif: /^(.+?)\s+se trouve\s+(.+)$/i,
-      question: (m) => "Où se trouve " + m[1] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+s'appelle\s+(.+)$/i,
-      question: (m) => "Comment s'appelle " + m[1] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+signifie\s+(.+)$/i,
-      question: (m) => "Que signifie " + m[1] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+provoque\s+(.+)$/i,
-      question: (m) => "Qu'est-ce qui provoque " + m[2] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+permet\s+(.+)$/i,
-      question: (m) => "Que permet " + m[1] + " ?"
-    }
-  ];
-
-  for (const regle of regles) {
-    const resultat = texte.match(regle.motif);
-    if (resultat) {
-      return regle.question(resultat);
-    }
+  let match;
+  if ((match = texte.match(/^(.+?) est composé(?:e)? de (.+)$/i))) {
+    return "De quoi " + match[1] + " est-il composé ?";
   }
-
-  return "Que faut-il retenir à propos de : " + texte + " ?";
+  if ((match = texte.match(/^(.+?) se trouve (.+)$/i))) {
+    return "Où se trouve " + match[1] + " ?";
+  }
+  if ((match = texte.match(/^(.+?) signifie (.+)$/i))) {
+    return "Que signifie " + match[1] + " ?";
+  }
+  if ((match = texte.match(/^(.+?) permet (.+)$/i))) {
+    return "Que permet " + match[1] + " ?";
+  }
+  if ((match = texte.match(/^(.+?) provoque (.+)$/i))) {
+    return "Qu'est-ce qui provoque " + match[2] + " ?";
+  }
+  const date = texte.match(/\b(1[0-9]{3}|20[0-9]{2})\b/);
+ if (date) {
+    return "Quel événement est associé à la date " + date[0] + " ?";
+  }
+  if (texte.includes("car")) {
+    return "Pourquoi ?";
+  }
+  if (texte.includes("grâce à")) {
+    return "Grâce à quoi cela est-il possible ?";
+  }
+  if (texte.includes("à cause de")) {
+    return "Quelle est la cause évoquée ?";
+  }
+  if (texte.includes("permet")) {
+    return "Quel est le rôle de cet élément ?";
+  }
+  if (texte.includes("conséquence")) {
+    return "Quelle est la conséquence mentionnée ?";
+  }
+  const mots = texte.split(" ");
+  if (mots.length > 8) {
+    return "Explique la phrase suivante :";
+  }
+  return "Que faut-il retenir ?";
 }
   function showCards(sentences) {
   $("activityTitle").textContent = "Flashcards";
