@@ -237,19 +237,15 @@ function creerQuestion(phrase) {
   $("activityTitle").textContent = "Flashcards";
   let index = 0;
   const area = $("activityContent");
-
   const counter = document.createElement("p");
   const question = document.createElement("h3");
   const answer = document.createElement("div");
   answer.className = "answer hidden";
-
   const reveal = document.createElement("button");
   reveal.textContent = "Voir la réponse";
-
   const next = document.createElement("button");
   next.textContent = "Carte suivante";
-
-  function render() {
+function render() {
     counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
 const carte = creerCarte(sentences[index]);
 question.textContent = carte.question;
@@ -258,7 +254,6 @@ answer.textContent = carte.reponse + ".";
     reveal.disabled = false;
     next.disabled = sentences.length < 2;
   }
-
   reveal.addEventListener("click", () => {
     answer.classList.remove("hidden");
     reveal.textContent=
