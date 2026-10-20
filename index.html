@@ -183,19 +183,15 @@ function showSummary(sentences) {
 }
 function creerQuestion(phrase) {
   const texte = phrase.trim().replace(/[.!?]+$/, "");
-
   if (/tourne autour du Soleil/i.test(texte)) {
     return "Autour de quel astre la planète tourne-t-elle ?";
   }
-
   if (/^(.+?) est (.+)$/i.test(texte)) {
     return "Qu'est-ce qui est décrit dans cette phrase ?";
   }
-
   if (/se trouve/i.test(texte)) {
     return "Où se trouve l'élément décrit ?";
   }
-
   return "Peux-tu expliquer cette phrase avec tes propres mots ?";
 }
   function showCards(sentences) {
