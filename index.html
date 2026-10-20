@@ -186,13 +186,22 @@ function creerQuestion(phrase) {
   if (/tourne autour du Soleil/i.test(texte)) {
     return "Autour de quel astre la planète tourne-t-elle ?";
   }
-  if (/^(.+?) est (.+)$/i.test(texte)) {
-    return "Qu'est-ce qui est décrit dans cette phrase ?";
+  if (/est situé|est située|se trouve/i.test(texte)) {
+    return "Où se trouve l’élément décrit ?";
   }
-  if (/se trouve/i.test(texte)) {
-    return "Où se trouve l'élément décrit ?";
+  if (/s'appelle|se nomme/i.test(texte)) {
+    return "Comment s’appelle cet élément ?";
   }
-  return "Peux-tu expliquer cette phrase avec tes propres mots ?";
+  if (/correspond à|désigne|signifie/i.test(texte)) {
+    return "Que signifie ce terme ?";
+  }
+  if (/est composé de|est composée de|contient/i.test(texte)) {
+    return "De quoi cet élément est-il composé ?";
+  }
+  if (/provoque|entraîne|permet/i.test(texte)) {
+    return "Quel est le rôle ou l’effet de cet élément ?";
+  }
+  return "Quelle idée importante cette phrase explique-t-elle ?";
 }
   function showCards(sentences) {
   $("activityTitle").textContent = "Flashcards";
