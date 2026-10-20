@@ -254,7 +254,6 @@ function creerQuestion(phrase) {
 const carte = creerCarte(sentences[index]);
 question.textContent = carte.question;
 answer.textContent = carte.reponse + ".";
-
     answer.classList.add("hidden");
     reveal.disabled = false;
     next.disabled = sentences.length < 2;
