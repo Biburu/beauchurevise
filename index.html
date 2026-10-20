@@ -297,41 +297,46 @@ function creerQuestion(phrase) {
 }
   function showCards(sentences) {
   $("activityTitle").textContent = "Flashcards";
+
   let index = 0;
   const area = $("activityContent");
   const counter = document.createElement("p");
-  const question = document.createElement("h3");
-  const answer = document.createElement("div");
-  answer.className = "answer hidden";
-  const reveal = document.createElement("button");
-  reveal.textContent = "Voir la réponse";
+  const flashcard = document.createElement("div");
+  flashcard.className = "flashcard";
+  flashcard.innerHTML = `
+    <div class="flashcard-inner">
+      <div class="flashcard-face flashcard-recto">
+        <h3 id="questionCard"></h3>
+        <p class="flashcard-help">Clique pour voir la réponse</p>
+      </div>
+      <div class="flashcard-face flashcard-verso">
+        <h3>Réponse</h3>
+        <p id="answerCard"></p>
+      </div>
+    </div>
+  `;
   const next = document.createElement("button");
   next.textContent = "Carte suivante";
-function render() {
-    counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
-const carte = creerCarte(sentences[index]);
-question.textContent = carte.question;
-answer.textContent = carte.reponse + ".";
-    answer.classList.add("hidden");
-    reveal.disabled = false;
-    next.disabled = sentences.length < 2;
+  function render() {
+    const carte = creerCarte(sentences[index]);
+    counter.textContent =
+      "Carte " + (index + 1) + " sur " + sentences.length;
+    flashcard.classList.remove("retournee");
+    flashcard.querySelector("#questionCard").textContent =
+      carte.question;
+    flashcard.querySelector("#answerCard").textContent =
+      carte.reponse;
   }
-  reveal.addEventListener("click", () => {
-    answer.classList.remove("hidden");
-    reveal.textContent=
-      "Réponse affichée";
-    reveal.disabled = true;
+  flashcard.addEventListener("click", () => {
+    flashcard.classList.toggle("retournee");
   });
   next.addEventListener("click", () => {
     index = (index + 1) % sentences.length;
     render();
   });
-
   area.appendChild(counter);
-    area.appendChild(question);
-    area.appendChild(answer);
-    area.appendChild(reveal);
-    area.appendChild(next);
+  area.appendChild(flashcard);
+  area.appendChild(next);
   render();
 }
 
