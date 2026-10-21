@@ -22,13 +22,9 @@
 <p>
 Révise avec l'intelligence artificielle
 </p>
-
 </header>
-
 <main>
-
 <section class="card">
-
 <h2>Importer ton cours</h2>
 
 <textarea
