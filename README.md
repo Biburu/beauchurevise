@@ -1,458 +1,118 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beauchurévise</title>
-<style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 24px;
-  font-family: Arial, sans-serif;
-  background: #f1f4ff;
-  color: #20263a;
-}
-main { max-width: 760px; margin: auto; }
-header { text-align: center; padding: 15px; }
-h1 { color: #244ac4; font-size: 38px; }
-.card {
-  background: white;
-  padding: 22px;
-  margin: 18px 0;
-  border-radius: 18px;
-  box-shadow: 0 3px 12px #17255412;
-}
-textarea {
-  width: 100%;
-  min-height: 190px;
-  padding: 14px;
-  font: inherit;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  resize: vertical;
-}
-button, .btn {
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 16px;
-  background: #244ac4;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  margin: 5px 3px 5px 0;
-}
-button:hover, .btn:hover { background: #193795; }
-button:disabled { opacity: .45; cursor: not-allowed; }
-.secondary { background: #64748b; }
-.answer {
-  background: #edf3ff;
-  border-radius: 10px;
-  padding: 12px;
-  margin-top: 12px;
-}
-.hidden {
-  display: none; }
-.small { color: #596579; font-size: 14px; }
-label { display: block; margin: 12px 0; }
-.choice {
-  display: block;
-  padding: 12px;
-  margin: 8px 0;
-  background: #f1f4ff;
-  border-radius: 9px;
-  cursor: pointer;
-}
-#status { font-weight: bold; }
-  .flashcard {
-  width: 100%;
-  max-width: 550px;
-  min-height: 230px;
-  margin: 25px auto;
-  perspective: 1000px;
-  cursor: pointer;
-}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.flashcard-inner {
-  position: relative;
-  width: 100%;
-  min-height: 230px;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
+<title>Beauchurévise AI</title>
 
-.flashcard.retournee .flashcard-inner {
-  transform: rotateY(180deg);
-}
+<link rel="stylesheet" href="css/style.css">
 
-.flashcard-face {
-  position: absolute;
-  inset: 0;
-  min-height: 230px;
-  padding: 25px;
-  box-sizing: border-box;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  overflow-wrap: anywhere;
-}
+<script defer src="js/ai.js"></script>
+<script defer src="js/app.js"></script>
 
-.flashcard-recto {
-  background: #e5efff;
-  color: #173b70;
-  border: 2px solid #8ab4f8;
-}
-
-.flashcard-verso {
-  background: #e3f7e8;
-  color: #185c30;
-  border: 2px solid #82c995;
-  transform: rotateY(180deg);
-}
-
-.flashcard-face h3 {
-  margin-bottom: 12px;
-}
-
-.flashcard-help {
-  font-size: 14px;
-  margin-top: 18px;
-}
-</style>
 </head>
+
 <body>
-<main>
-<header>
-  <h1>Beauchurévise</h1>
-  <p>Ton espace personnel de révision 📚</p>
+
+<header class="hero">
+
+<h1>📚 Beauchurévise AI</h1>
+
+<p>
+Révise avec l'intelligence artificielle
+</p>
+
 </header>
 
-<section id="home" class="card hidden">
-  <h2>Prépare tes révisions</h2>
-  <p>Colle le texte de ton cours ci-dessous.</p>
-  <textarea id="course" placeholder="Colle ton cours ici..."></textarea>
-  <label for="file">Ou importe un fichier texte (.txt ou .md) :</label>
-  <input id="file" type="file" accept=".txt,.md,text/plain">
-  <p class="small">Cette version lit les fichiers texte, mais pas encore le texte contenu dans les photos.</p>
-  <p id="status" role="status"></p>
-  <button id="prepare">Préparer mes révisions</button>
+<main>
 
-  <div id="tools" class="hidden">
-    <h3>Choisis ton activité</h3>
-    <button data-view="summary">Ouvrir le résumé</button>
-    <button data-view="cards">Ouvrir les flashcards</button>
-    <button data-view="quiz">Ouvrir le quiz</button>
-  </div>
+<section class="card">
+
+<h2>Importer ton cours</h2>
+
+<textarea
+id="courseInput"
+placeholder="Colle ton cours ici">
+</textarea>
+
+<button id="saveCourse">
+Analyser le cours
+</button>
+
+<div id="status"></div>
+
 </section>
 
-<section id="activity" class="card hidden">
-  <a class="btn secondary" href="./">← Retour à l'accueil</a>
-  <h2 id="activityTitle"></h2>
-  <div id="activityContent"></div>
+<section class="dashboard">
+
+<button data-tool="summary">
+🧠 Résumé
+</button>
+
+<button data-tool="flashcards">
+🎴 Flashcards
+</button>
+
+<button data-tool="quiz">
+📝 Quiz
+</button>
+
+<button data-tool="exam">
+🎓 Examen
+</button>
+
+<button data-tool="chat">
+👨‍🏫 Prof IA
+</button>
+
+<button data-tool="mindmap">
+🗺 Carte mentale
+</button>
+
+<button data-tool="rap">
+🎤 Version Rap
+</button>
+
+<button data-tool="gossip">
+💅 Version Gossip
+</button>
+
+<button data-tool="podcast">
+🎧 Podcast
+</button>
+
+<button data-tool="games">
+🎮 Jeux
+</button>
+
+<button data-tool="advanced">
+➕ Approfondir
+</button>
+
 </section>
+
+<section class="card">
+
+<h2>Résultat</h2>
+
+<div id="output">
+
+L'analyse apparaîtra ici.
+
+</div>
+
+</section>
+
 </main>
 
-<script>
-const $ = id => document.getElementById(id);
-const params = new URLSearchParams(location.search);
-const view = params.get("view");
+<footer>
 
-function splitSentences(text) {
-  return text.split(/[.!?]+/)
-    .map(s => s.trim())
-    .filter(s => s.length > 0);
-}
+<p>
+Beauchurévise AI © 2026
+</p>
 
-function getCourse() {
-  return localStorage.getItem("reviseai-course") || "";
-}
+</footer>
 
-function prepare() {
-  const text = $("course").value.trim();
-  if (!text) {
-    $("status").textContent = "Écris ou importe d'abord ton cours.";
-    return;
-  }
-
-  const sentences = splitSentences(text);
-  if (!sentences.length) {
-    $("status").textContent = "Je n'ai pas trouvé de phrases dans ce cours.";
-    return;
-  }
-
-  localStorage.setItem("reviseai-course", text);
-  $("status").textContent = "Cours enregistré ! Tu peux choisir une activité.";
-  $("tools").classList.remove("hidden");
-}
-
-$("file").addEventListener("change", async event => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  try {
-    $("course").value = await file.text();
-    $("status").textContent = "Fichier texte importé. Clique sur Préparer mes révisions.";
-  } catch {
-    $("status").textContent = "Impossible de lire ce fichier. Essaie un fichier .txt.";
-  }
-});
-
-$("prepare").addEventListener("click", prepare);
-
-document.querySelectorAll("[data-view]").forEach(button => {
-  button.addEventListener("click", () => {
-    if (!getCourse()) {
-      $("status").textContent = "Prépare d'abord ton cours.";
-      return;
-    }
-    const url = new URL(location.href);
-    url.search = "?view=" + button.dataset.view;
-    window.open(url.href, "_blank");
-  });
-});
-
-function showSummary(sentences) {
-  $("activityTitle").textContent = "Résumé du cours";
-  const intro = document.createElement("p");
-  intro.textContent = "Voici les idées principales de ton texte :";
-  $("activityContent").appendChild(intro);
-
-  const list = document.createElement("ul");
-  sentences.slice(0, 8).forEach(sentence => {
-    const item = document.createElement("li");
-    item.textContent = sentence + ".";
-    list.appendChild(item);
-  });
-  $("activityContent").appendChild(list);
-
-  if (sentences.length > 8) {
-    const note = document.createElement("p");
-    note.className = "small";
-    note.textContent = "Le résumé affiche les 8 premières phrases.";
-    $("activityContent").appendChild(note);
-  }
-}
-  function creerCarte(phrase) {
-  const texte = phrase.trim().replace(/[.!?]+$/, "");
-  const question = creerQuestion(texte);
-  return {
-    question: question,
-    reponse: texte
-  };
-}
-function creerQuestion(phrase) {
-  const texte = phrase.trim().replace(/[.!?]+$/, "");
-
-  const regles = [
-    {
-      motif: /^(.+?)\s+est composé de\s+(.+)$/i,
-      question: (m) => "De quoi " + m[1] + " est-il composé ?"
-    },
-    {
-      motif: /^(.+?)\s+est composée de\s+(.+)$/i,
-      question: (m) => "De quoi " + m[1] + " est-elle composée ?"
-    },
-    {
-      motif: /^(.+?)\s+tourne autour du Soleil$/i,
-      question: (m) => "Autour de quel astre " + m[1] + " tourne-t-elle ?"
-    },
-    {
-      motif: /^(.+?)\s+se trouve\s+(.+)$/i,
-      question: (m) => "Où se trouve " + m[1] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+s'appelle\s+(.+)$/i,
-      question: (m) => "Comment s'appelle " + m[1] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+signifie\s+(.+)$/i,
-      question: (m) => "Que signifie " + m[1] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+provoque\s+(.+)$/i,
-      question: (m) => "Qu'est-ce qui provoque " + m[2] + " ?"
-    },
-    {
-      motif: /^(.+?)\s+permet\s+(.+)$/i,
-      question: (m) => "Que permet " + m[1] + " ?"
-    }
-  ];
-
-  for (const regle of regles) {
-    const resultat = texte.match(regle.motif);
-    if (resultat) {
-      return regle.question(resultat);
-    }
-  }
-
-  return "Que faut-il retenir à propos de : " + texte + " ?";
-}
-  function showCards(sentences) {
-  $("activityTitle").textContent = "Flashcards";
-  let index = 0;
-  const area = $("activityContent");
-  const counter = document.createElement("p");
-  const question = document.createElement("h3");
-  const answer = document.createElement("div");
-  answer.className = "answer hidden";
-  const reveal = document.createElement("button");
-  reveal.textContent = "Voir la réponse";
-  const next = document.createElement("button");
-  next.textContent = "Carte suivante";
-function render() {
-    counter.textContent = "Carte " + (index + 1) + " sur " + sentences.length;
-const carte = creerCarte(sentences[index]);
-question.textContent = carte.question;
-answer.textContent = carte.reponse + ".";
-    answer.classList.add("hidden");
-    reveal.disabled = false;
-    next.disabled = sentences.length < 2;
-  }
-  reveal.addEventListener("click", () => {
-    answer.classList.remove("hidden");
-    reveal.textContent=
-      "Réponse affichée";
-    reveal.disabled = true;
-  });
-  next.addEventListener("click", () => {
-    index = (index + 1) % sentences.length;
-    render();
-  });
-
-  area.appendChild(counter);
-    area.appendChild(question);
-    area.appendChild(answer);
-    area.appendChild(reveal);
-    area.appendChild(next);
-  render();
-}
-
-function showQuiz(sentences) {
-  $("activityTitle").textContent = "Quiz du cours";
-  const area = $("activityContent");
-
-  if (sentences.length < 2) {
-    area.textContent = "Ajoute au moins deux phrases à ton cours pour créer un quiz.";
-    return;
-  }
-
-  const questions = sentences.slice(0, Math.min(5, sentences.length));
-  let index = 0;
-  let score = 0;
-
-  const progress = document.createElement("p");
-  const question = document.createElement("h3");
-  const choices = document.createElement("div");
-  const feedback = document.createElement("p");
-  const next = document.createElement("button");
-  next.textContent = "Question suivante";
-  next.disabled = true;
-
-  function render() {
-    if (index >= questions.length) {
-      area.replaceChildren();
-      const result = document.createElement("h3");
-      result.textContent = "Résultat : " + score + " / " + questions.length;
-      const detail = document.createElement("p");
-      detail.textContent = score === questions.length
-        ? "Bravo, sans faute !"
-        : "Bien joué ! Relis les réponses et réessaie.";
-      const restart = document.createElement("button");
-      restart.textContent = "Recommencer";
-      restart.addEventListener("click", () => {
-        index = 0;
-        score = 0;
-        area.replaceChildren(progress, question, choices, feedback, next);
-        render();
-      });
-      area.append(result, detail, restart);
-      return;
-    }
-
-    progress.textContent = "Question " + (index + 1) + " sur " + questions.length;
-    question.textContent = "Quelle phrase figure dans ton cours ?";
-    choices.replaceChildren();
-    feedback.textContent = "";
-    next.disabled = true;
-
-    const correct = questions[index];
-    const options = [correct];
-
-    const others = sentences.filter(s => s !== correct);
-others.sort(() => Math.random() - 0.5);
-
-while (options.length < 4 && others.length) {
-  options.push(others.pop());
-}
-    options.sort(() => Math.random() - 0.5);
-
-    options.forEach(option => {
-      const label = document.createElement("label");
-      label.className = "choice";
-      const radio = document.createElement("input");
-      radio.type = "radio";
-      radio.name = "answer";
-      radio.value = option;
-      label.append(radio, document.createTextNode(" " + option));
-      radio.addEventListener("change", () => {
-        choices.querySelectorAll("input").forEach(input => input.disabled = true);
-        if (option === correct) {
-          score++;
-          feedback.textContent = "Bonne réponse !";
-        } else {
-          feedback.textContent = "Pas tout à fait. La bonne réponse était : " + correct;
-        }
-        next.disabled = false;
-      });
-      choices.appendChild(label);
-    });
-  }
-
-  next.addEventListener("click", () => {
-    index++;
-    render();
-  });
-
-  area.append(progress, question, choices, feedback, next);
-  render();
-}
-
-if (view) {
-  $("activity").classList.remove("hidden");
-  const course = getCourse();
-  if (!course) {
-    $("activityTitle").textContent = "Aucun cours trouvé";
-    $("activityContent").textContent =
-      "Retourne à l'accueil, colle ton cours et clique sur Préparer mes révisions.";
-  } else {
-    const sentences = splitSentences(course);
-    if (view === "summary") showSummary(sentences);
-    else if (view === "cards") showCards(sentences);
-    else if (view === "quiz") showQuiz(sentences);
-    else {
-      $("activityTitle").textContent = "Page inconnue";
-      $("activityContent").textContent = "Retourne à l'accueil.";
-    }
-  }
-} else {
-  $("home").classList.remove("hidden");
-  $("course").value = getCourse();
-  if (getCourse()) {
-    $("status").textContent = "Ton dernier cours est restauré.";
-    $("tools").classList.remove("hidden");
-  }
-}
-</script>
 </body>
-</html>              
-          
-                     
-                     
+</html>
